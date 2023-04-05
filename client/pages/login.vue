@@ -55,11 +55,6 @@ export default {
             })
             .catch(error => console.log(error));
         },
-
-        // async asyncData({$auth, query}){
-        //     await $auth.loginWith('google', {params: query})
-        //     return {}
-        // }
     }
 
 }
