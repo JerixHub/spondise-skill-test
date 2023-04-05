@@ -33,11 +33,42 @@ export default {
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    // https://go.nuxtjs.dev/bootstrap
     'bootstrap-vue/nuxt',
-    // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/auth-next'
   ],
+
+  router: {
+    middleware: ['auth']
+  },
+
+  auth: {
+    strategies: {
+      laravelSanctum: {
+        provider: 'laravel/sanctum',
+        url: 'localhost:8000',
+        endpoints: {
+          login: {
+            url: '/api/login'
+          },
+          logout: {
+            url: '/api/logout'
+          },
+          user: {
+            url: '/api/user'
+          }
+        },
+        user: {
+          property: false
+        }
+      },
+    },
+    redirect: {
+      login: '/login',
+      logout: '/',
+      home: '/dashboard'
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
