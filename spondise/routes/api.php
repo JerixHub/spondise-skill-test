@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\RegistrationConfirmation;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +28,8 @@ Route::post('register', function(Request $request){
         'email'=>$request->email,
         'password'=>bcrypt($request->password)
     ]);
+
+    Mail::to($user->email)->send(new RegistrationConfirmation());
 
     return response()->json($user, 201);
 });
