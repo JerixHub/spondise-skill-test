@@ -1,7 +1,8 @@
 <template>
   <div>
     <b-card>
-        <b-form @submit="onSubmit">
+        <b-form @submit.prevent="register">
+            <input type="hidden" id="csrf_token" name="csrf_token" value=""></input>
             <b-form-group
                 id="input-group-1"
                 label="Name:"
@@ -47,27 +48,30 @@ export default {
 
     data(){
         return{
-            form: {
+            form:{
                 name: '',
                 email: '',
-                password: ''
+                password: '',
             }
         }
     },
 
+    mounted(){
+        this.$axios.$get('http://localhost:8000/sanctum/csrf-cookie');
+    },
+
     methods: {
-        onSubmit(){
-            this.$axios.post('http://localhost:8000/api/register', {
-                name: form.name,
-                email: form.email,
-                password: form.password
-            })
+        register(){
+            var formData = this.form;
+            this.$axios.post('http://localhost:8000/api/register', formData)
             .then((response) => {
                 console.log(response);
             }, (error) => {
                 console.log(error);
             });
         }
+
+        
     }
 }
 </script>
